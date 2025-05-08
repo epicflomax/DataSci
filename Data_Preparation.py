@@ -35,3 +35,7 @@ fill_in = 'NA'
 data['SA'] = data['SA'].fillna(fill_in)
 data['SL'] = data['SL'].fillna(fill_in)
 data['WB'] = data['WB'].fillna(fill_in)
+
+#Filling Numeric Columns
+for i in num_features.columns:
+    data[i] = data[i].fillna(data[i].mean())
