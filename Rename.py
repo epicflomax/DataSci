@@ -18,6 +18,7 @@ missing_percentage = X.isnull().mean() * 100
 
 print(missing_percentage[missing_percentage > 50].sort_values(ascending=False))
 
-df['SA'] = df['SA'].fillna(None)
-df['SL'] = df['SL'].fillna(None)
-df['WB'] = df['WB'].fillna(None)
+fill_in = 'NA'
+df['SA'] = df['SA'].fillna(fill_in)
+df['SL'] = df['SL'].fillna(fill_in)
+df['WB'] = df['WB'].fillna(fill_in)

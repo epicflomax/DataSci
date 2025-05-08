@@ -4,3 +4,5 @@ from Rename import X
 from Rename import y
 
 print(df.describe())
+
+print(df.dtypes())
