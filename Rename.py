@@ -20,3 +20,4 @@ print(missing_percentage[missing_percentage > 50].sort_values(ascending=False))
 
 df['SA'] = df['your_column_name'].fillna(None)
 df['SL'] = df['your_column_name'].fillna(None)
+df['WB'] = df['your_column_name'].fillna(None)
