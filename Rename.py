@@ -1,4 +1,8 @@
-
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from sklearn.metrics import roc_curve, confusion_matrix, auc
+import matplotlib.pyplot as plt
 #meow
 
 df = pd.read_csv("kzp-2008-2020-timeseries.csv",encoding="latin1")
