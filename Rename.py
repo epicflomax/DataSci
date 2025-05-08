@@ -17,3 +17,6 @@ print(X.isna().sum())
 missing_percentage = X.isnull().mean() * 100
 
 print(missing_percentage[missing_percentage > 50].sort_values(ascending=False))
+
+df['SA'] = df['your_column_name'].fillna(None)
+df['SL'] = df['your_column_name'].fillna(None)
