@@ -1,7 +1,7 @@
 
-from Rename import df
-from Rename import X
-from Rename import y
+from Data_Preparation import df
+from Data_Preparation import X
+from Data_Preparation import y
 
 print(df.describe())
 
