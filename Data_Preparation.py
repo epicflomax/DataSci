@@ -30,6 +30,7 @@ print("Missing percentage Categorical columns\n", missing_percentage_cat)
 missing_percentage_num = (num_features.isnull().sum() / len(num_features)) * 100
 print("Missing percentage numeric columns\n", missing_percentage_num)
 
+#Filling Categorical Columns
 fill_in = 'NA'
 data['SA'] = data['SA'].fillna(fill_in)
 data['SL'] = data['SL'].fillna(fill_in)
