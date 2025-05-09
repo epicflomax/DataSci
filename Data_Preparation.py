@@ -9,7 +9,7 @@ df = pd.read_csv("kzp-2008-2020-timeseries.csv",encoding="latin1")
 
 data =df[df["JAHR"]==2011].copy()
 
-label = data["FiErg"]
+label = "FiErg"
 features = ["KT","Inst", "Adr",  "Ort", "Typ", "RWStatus", "Akt", "SL", "WB", "AnzStand","SA","PtageStatT","AustStatT","NeugStatT","Ops","Gebs","CMIb","CMIn",
             "pPatWAU","pPatWAK", "pPatLKP","pPatHOK","PersA","PersP","PersMT","PersT","PersAFall","PersPFall","PersMTFall","PersTFall","AnzBelA","AnzBelP (nur ab KZP2010)"]
 
