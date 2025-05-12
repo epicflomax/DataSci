@@ -44,6 +44,15 @@ data['WB'] = data['WB'].fillna(fill_in)
 for i in data[num_features]:
     data[i] = data[i].fillna(data[i].mean())
 
+#Filling Label (Possibly change later)
+data[label] = data[label].fillna(data[label].mean())
+
+#Is the missing Data random?
+#How does model perform with and without dropping columns?
+
+#Transform label to 0/1
+data[label] = data[label].apply(lambda x: 0 if x < 0 else 1)
+
 
 #Transforming object col into category
 print(data[cat_features].dtypes)
