@@ -71,7 +71,7 @@ binary_label_data = (label_data > 0).astype(int)
 # Feature selection: Select top k features using ANOVA F-value
 k = 10  # You can choose the number of features you want to select
 selector = SelectKBest(score_func=f_classif, k=k)
-X_new = selector.fit_transform(X_train[numerical_features], binary_label_data)
+X_new = selector.fit_transform(X_train[numerical_features], binary_label_data) ####
 
 # Get the indices of the selected features
 selected_feature_indices = selector.get_support(indices=True)
