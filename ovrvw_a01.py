@@ -93,3 +93,27 @@ plt.show()
 results_df = pd.DataFrame(results)
 print("\nModel Comparison:")
 print(results_df)
+
+
+# Top 5 SVM configurations by mean cross-validation accuracy
+svm_results = pd.DataFrame(svm_model.cv_results_)
+top5_svm = svm_results.sort_values(by='mean_test_score', ascending=False).head(5)
+print("\nTop 5 SVM Configurations:")
+print(top5_svm[['params', 'mean_test_score']])
+
+# k-NN GridSearchCV (if not already used — add it if needed)
+# Example: use GridSearchCV for k-NN with varying k values
+from sklearn.model_selection import GridSearchCV
+
+knn_grid = GridSearchCV(
+    KNeighborsClassifier(),
+    param_grid={'n_neighbors': list(range(1, 21))},
+    cv=5, scoring='accuracy'
+)
+knn_grid.fit(X_train, y_train)
+
+# Top 5 k-NN configurations
+knn_results = pd.DataFrame(knn_grid.cv_results_)
+top5_knn = knn_results.sort_values(by='mean_test_score', ascending=False).head(5)
+print("\nTop 5 k-NN Configurations:")
+print(top5_knn[['params', 'mean_test_score']])
