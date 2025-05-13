@@ -10,10 +10,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from Data_Preparation import df
 
+#nur 2011
+#balanced - unbalanced data
+
 
 # Load the CSV file
 # file_path = '../kzp-2008-2020-timeseries.csv'
 # data = pd.read_csv(file_path, encoding='latin1')
+
 data = df
 
 # Define the label and features
@@ -23,6 +27,7 @@ features = ["KT", "Inst", "Adr", "Ort", "Typ", "RWStatus", "Akt", "SL", "WB", "A
             "pPatWAU", "pPatWAK", "pPatLKP", "pPatHOK", "PersA", "PersP", "PersMT", "PersT",
             "PersAFall", "PersPFall", "PersMTFall", "PersTFall", "AnzBelA", "AnzBelP (nur ab KZP2010)"]
 
+
 # Filter the data to include only the specified features and label
 filtered_data = data[features + [label]]
 
@@ -31,25 +36,28 @@ numerical_features = filtered_data.select_dtypes(include=['int64', 'float64']).c
 categorical_features = filtered_data.select_dtypes(include=['object']).columns.tolist()
 
 # Handle numerical features
-numerical_data = filtered_data[numerical_features]
+numerical_data = data[numerical_features]
 numerical_data.replace([np.inf, -np.inf], np.nan, inplace=True)
 numerical_data.fillna(numerical_data.mean(), inplace=True)
-scaler = StandardScaler()
-numerical_data_scaled = scaler.fit_transform(numerical_data)
+sc = StandardScaler()
+# numerical_data_scaled = scaler.fit_transform(numerical_data)
 
 # Handle categorical features
-categorical_data = filtered_data[categorical_features]
-categorical_data_encoded = pd.get_dummies(categorical_data)
+categorical_data = data[features]
+categorical_data_encoded = pd.get_dummies(data)
 
 # Combine the preprocessed features
-preprocessed_features = pd.concat([pd.DataFrame(numerical_data_scaled, columns=numerical_data.columns),
-                                    categorical_data_encoded], axis=1)
+# preprocessed_features = pd.concat([pd.DataFrame(numerical_data, columns=numerical_data.columns),
+#                                     categorical_data_encoded], axis=1)
 
 # Separate the label
 label_data = filtered_data[label]
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(preprocessed_features, label_data, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(data, label_data, test_size=0.2, random_state=42)
+
+X_train[numerical_features] = sc.fit_transform(X_train[numerical_features])
+X_test[numerical_features] = sc.transform(X_test[numerical_features])
 
 # Display the shapes of the training and testing sets
 print("Training features shape:", X_train.shape)
@@ -63,11 +71,11 @@ binary_label_data = (label_data > 0).astype(int)
 # Feature selection: Select top k features using ANOVA F-value
 k = 10  # You can choose the number of features you want to select
 selector = SelectKBest(score_func=f_classif, k=k)
-X_new = selector.fit_transform(preprocessed_features, binary_label_data)
+X_new = selector.fit_transform(X_train[numerical_features], binary_label_data)
 
 # Get the indices of the selected features
 selected_feature_indices = selector.get_support(indices=True)
-selected_feature_names = preprocessed_features.columns[selected_feature_indices]
+selected_feature_names = X_train.columns[selected_feature_indices]
 
 # Exclude 'FiErg', 'Ort_', and 'Adr_' features from the selected features
 filtered_feature_names = [feature for feature in selected_feature_names if feature != 'FiErg' and not feature.startswith('Ort_') and not feature.startswith('Adr_')]
@@ -169,6 +177,7 @@ print("Accuracy:", accuracy_filtered)
 print("Classification Report:")
 print(classification_rep_filtered)
 print("Selected Features:", filtered_feature_names)
+print(selected_feature_names)
 
 # Generate the confusion matrix
 cm = confusion_matrix(y_test_binary, y_pred_filtered)
